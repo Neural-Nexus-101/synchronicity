@@ -1,4 +1,12 @@
 {
+  "name": "ErgoProAI",
+  "version": "0.1.0",
+  "description": "A chrome extension built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/killa-kyle/posture-posture-posture-chrome-extension.git"
+  },
   "scripts": {
   "build": "node utils/build.js",
   "start": "node utils/webserver.js",
