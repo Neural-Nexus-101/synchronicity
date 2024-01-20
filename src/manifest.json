@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "ErgoPro AI",
+  "description": "Your posture corrector buddy. ErgoPro AI is a Chrome extension that helps you maintain a good posture while working on your computer.",
+  "options_page": "options.html",
+  "background": {
+    "scripts": ["background.bundle.js"]
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-34.png"
+  },
+  "icons": {
+    "128": "icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["contentScript.bundle.js"],
+      "css": ["content.styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    "content.styles.css",
+    "icon-128.png",
+    "icon-34.png"
+  ]
+}

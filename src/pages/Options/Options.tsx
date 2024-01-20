@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import * as poseDetection from '@tensorflow-models/pose-detection';
-// import * as tf from "@tensorflow/tfjs-core";
 import '@tensorflow/tfjs-backend-webgl';
 import Webcam from 'react-webcam';
 import {
@@ -10,45 +9,48 @@ import {
   drawCanvas,
 } from './modules/draw_utils';
 import './Options.css';
-
+interface IDevice {
+  deviceId: string;
+  label: string;
+}
 const Options = () => {
-  // the baseline eye position with good posture
+  // Reference for baseline eye position with good posture
   let GOOD_POSTURE_POSITION = useRef<any>(null);
 
+  // Reference for current eye position
   let currentPosturePosition = useRef<any>(null);
 
+  // Reference for good posture deviation
   let GOOD_POSTURE_DEVIATION = useRef(25);
-  const DETECTION_RATE = 100; // rate at which the pose detection is performed in ms
+  const DETECTION_RATE = 100; // Rate at which pose detection is performed in ms
 
-  // the current moveNet model object
+  // Reference for the current MoveNet model object
   let detector: any | null = null;
 
-  // set up our camera and canvas refs to use later
+  // Refs for webcam and canvas
   const camRef = useRef<any>(null);
   const canvasRef = useRef<any>(null);
 
-  // this is the boolean that starts / stops the pose detection
+  // State for pose detection status
   const [isWatching, setIsWatching] = useState(false);
   const IS_PANEL_OPEN = true;
 
-  // handle the selection of the webcam
+  // State for webcam device selection
   const [deviceId, setDeviceId] = useState('');
   const [devices, setDevices] = useState([]);
 
   let portRef = useRef<any>(null);
 
-  // handle info popup
+  // State for info popup
   const [isOverlayShowing, setIsOverlayShowing] = useState(false);
+
+  // Handler for info popup click
   const handleOverlayClick = () => {
     setIsOverlayShowing(true);
   }
 
-
   /**
    * Starts the pose detection by loading the model and kicking off the detection loop
-   *
-   * @returns void
-   * @memberof Options
    */
   const loadMoveNet = async () => {
     const detectorConfig = {
@@ -59,7 +61,7 @@ const Options = () => {
       detectorConfig
     );
 
-    // loop the pose detection
+    // Loop the pose detection
     setInterval(() => {
       return detect(detector);
     }, DETECTION_RATE);
@@ -69,10 +71,6 @@ const Options = () => {
    * Detects the pose of the user's face,
    * then dispatches a message to the content script
    * in 'handlePose' and draws the keypoints and skeleton in 'drawCanvas'
-   *
-   * @param {model} Array of objects
-   * @returns void
-   * @memberof Options
    */
   const detect = async (model: { estimatePoses: (arg0: any) => any }) => {
     if (
@@ -80,19 +78,15 @@ const Options = () => {
       camRef.current !== null &&
       camRef.current.video.readyState === 4
     ) {
-      // get video properties
       const video = camRef.current.video;
       const videoWidth = camRef.current.video.videoWidth;
       const videoHeight = camRef.current.video.videoHeight;
 
-      // set video width
       camRef.current.video.width = videoWidth;
       camRef.current.video.height = videoHeight;
 
-      // detection happens here
       const poses = await model.estimatePoses(video);
 
-      // check for valid pose for our use case and draw the keypoints and skeleton
       if (
         !poses ||
         !poses[0] ||
@@ -115,10 +109,6 @@ const Options = () => {
 
   /**
    * Determines position of eye and checks against baseline posture
-   *
-   * @param {(obj[])} Array of objects
-   * @returns void
-   * @memberof Options
    */
   const handlePose = async (poses: { keypoints: { y: number }[] }[]) => {
     try {
@@ -128,13 +118,8 @@ const Options = () => {
       if (!rightEyePosition) return;
       if (GOOD_POSTURE_POSITION.current == null) {
         handlePosture({ baseline: currentPosturePosition.current });
-        // console.log(
-        //   'Good Posture Height is set at ',
-        //   currentPosturePosition.current
-        // );
       }
 
-      // handle the logic for off-posture position
       if (
         Math.abs(
           currentPosturePosition.current - GOOD_POSTURE_POSITION.current
@@ -155,48 +140,38 @@ const Options = () => {
     }
   };
 
-  // pass the message to the content script
+  /**
+   * Passes the message to the content script
+   */
   function handlePosture(msg: { baseline?: any; posture?: any }) {
-    // console.log(msg);
     if (msg.baseline) GOOD_POSTURE_POSITION.current = msg.baseline;
     if (msg.posture) {
       portRef.current.postMessage(msg);
     }
   }
 
-  // event handlers for the two buttons on the options page
+  // Event handlers for the two buttons on the options page
   const handleToggleCamera = () => {
     setIsWatching((isCurrentlyWatching) => {
       if (!isCurrentlyWatching) {
         chrome.browserAction.setBadgeText({ text: 'ON' });
-        document.title = 'TRACKING POSTURE - ErgoPro AI';
+        document.title = 'TRACKING POSTURE - ErgoProAI';
       } else {
         chrome.browserAction.setBadgeText({ text: 'OFF' });
-        document.title = 'ErgoPro AI - Options';
+        document.title = 'ErgoProAI - Options';
       }
 
       return !isCurrentlyWatching;
     });
   };
+
   const handleResetPosture = () => {
     GOOD_POSTURE_POSITION.current = null;
   };
 
-  //  webcam devices
-  interface IDevice {
-    deviceId: string;
-    label: string;
-  }
-  // handle media devices loaded
+  // Handler for media devices loaded
   const handleDevices = useCallback(
     (mediaDevices) => {
-      interface IMediaDevice {
-        deviceId: string | null;
-        groupId: string | null;
-        kind: string | null;
-        label: string | null;
-      }
-
       const cameras = mediaDevices.filter(
         (device: { kind: string }) => device.kind === 'videoinput'
       );
@@ -208,19 +183,17 @@ const Options = () => {
     [setDevices]
   );
 
-  // smoothly switch between the cameras
+  // Handler for switching between cameras
   async function handleSetDeviceId(e: any) {
     await setDeviceId(e.target.value);
     await setIsWatching(false);
     await setIsWatching((isWatching) => !isWatching);
   }
 
-  // connect and reconnect to ports when watching is toggled
+  // Connect and reconnect to ports when watching is toggled
   useEffect(() => {
-    // connect to port for messaging to content script
     chrome.runtime.onConnect.addListener(function (port) {
       if (port.name === 'set-options') {
-        // send 'isWatching' and the panel status to popup script
         port.postMessage({
           action: 'SET_IS_WATCHING',
           payload: { isWatching },
@@ -230,7 +203,6 @@ const Options = () => {
           payload: { isPanelOpen: IS_PANEL_OPEN },
         });
 
-        // handle options sent from the popup script
         port.onMessage.addListener(async function (msg) {
           if (msg.action === 'SET_GOOD_POSTURE_DEVIATION') {
             if (!msg.payload.GOOD_POSTURE_DEVIATION) return;
@@ -239,7 +211,6 @@ const Options = () => {
 
           if (msg.action === 'RESET_POSTURE') {
             GOOD_POSTURE_POSITION.current = null;
-            // console.log('posture baseline reset');
           }
           if (msg.action === 'TOGGLE_WATCHING') {
             if (msg.payload.isWatching === null) return;
@@ -250,17 +221,15 @@ const Options = () => {
           }
         });
         port.onDisconnect.addListener((event) => {
-          // console.log("port disconnected", event)
+          // Handle port disconnection
         });
       }
     });
   }, [isWatching]);
 
-  // kick off the model loading and pose detection
+  // Kick off the model loading and pose detection
   useEffect(() => {
     loadMoveNet();
-
-    // connect to the background script
     portRef.current = chrome.runtime.connect({ name: 'relay-detection' });
   }, []);
 
@@ -324,11 +293,11 @@ const Options = () => {
                 Info
               </button>
             </div>
-            {/* overlay */}
+            {/* Overlay */}
             {isOverlayShowing &&
               <div className="overlay">
-                <h3>ErgoPro AI</h3>
-                <p>Made With Love by Team Neural Nexus</p>
+                <h3>ErgoProAI</h3>
+                <p>Made with Love by Team Neural Nexus at Synchronicity</p>
                 <p>version {chrome.runtime.getManifest().version}</p>
                 <button className="overlay-close-btn" onClick={() => setIsOverlayShowing(false)}>X</button>
               </div>

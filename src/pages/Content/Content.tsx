@@ -34,7 +34,7 @@ const Content = () => {
     <>
       {currentPosture && (
         <div className="posture-status-bar">
-          {currentPosture === GOOD_POSTURE ? '' : 'Bad Posture'}
+          {currentPosture === GOOD_POSTURE ? '' : 'Sit Up!'}
         </div>
       )}
     </>

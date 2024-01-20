@@ -1,3 +1,4 @@
+// https://github.com/tensorflow/tfjs-models/blob/9b5d3b663638752b692080145cfb123fa324ff11/pose-detection/demos/live_video/src/camera.js
 import * as poseDetection from '@tensorflow-models/pose-detection';
 
 /**
@@ -28,14 +29,13 @@ export const drawCanvas = (
   if (poses[0].keypoints != null) {
     drawKeypoints(poses[0].keypoints, ctx, goodPostureBaseLine);
     drawGoodPostureHeight(poses[0].keypoints, ctx, goodPostureBaseLine);
-    
+    // drawSkeleton(poses[0].keypoints, poses[0].id, ctx);
   }
 };
 
-
 /**
  * Draw the keypoints on the video.
- * @param keypoints 
+ * @param keypoints A list of keypoints.
  */
 export function drawKeypoints(
   keypoints: any,
@@ -52,9 +52,9 @@ export function drawKeypoints(
   ctx.strokeStyle = 'White';
   ctx.lineWidth = 1;
 
-  ctx.fillStyle = 'rgba(0, 255, 0, 0.9)'; 
+  ctx.fillStyle = 'rgba(0, 255, 0, 0.9)'; // green if delta is positive
   if (delta > 25 || delta < -25) {
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.9)'; 
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.9)'; // TODO: make this a configurable parameter to match the GOOD_POSTURE_DEVIATION val
   }
 
   for (const i of keypointInd.middle) {

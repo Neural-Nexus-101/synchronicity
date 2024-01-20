@@ -2,184 +2,197 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
+/* Color variables */
 :root {
-    --cream: hsla(56, 85%, 89%, 1);
-    --almond: hsla(27, 92%, 90%, 1);
-    --baby-pink: hsla(356, 100%, 91%, 1);
-    --pink-lavender: hsla(311, 64%, 85%, 1);
-    --mauve: hsla(263, 64%, 84%, 1);
-    --baby-blue-eyes: hsla(215, 77%, 80%, 1);
-    --non-photo-blue: hsla(195, 82%, 76%, 1);
-    --electric-blue: hsla(185, 84%, 76%, 1);
-    --magic-mint: hsla(167, 82%, 78%, 1);
-    --celadon: hsla(126, 89%, 85%, 1);
+  --cream: hsla(56, 85%, 89%, 1);
+  --almond: hsla(27, 92%, 90%, 1);
+  --baby-pink: #57CFD5;
+  --pink-lavender: #57CFD5;
+  --mauve: rgb(67, 255, 192);
+  --baby-blue-eyes: hsla(215, 77%, 80%, 1);
+  --non-photo-blue: hsla(195, 82%, 76%, 1);
+  --electric-blue: hsla(185, 84%, 76%, 1);
+  --magic-mint: hsla(167, 82%, 78%, 1);
+  --celadon: hsla(126, 89%, 85%, 1);
 
-    --color-background: var(--pink-lavender);
-    --color-text: #303030;
-    --color-primary: var(--magic-mint);
-    --box-height: 300px;
+  --color-background: var(--pink-lavender);
+  --color-text: #303030;
+  --color-primary: var(--magic-mint);
+  --box-height: 300px;
 }
 
+/* Body styles */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: relative;
-    background-color: var(--color-background);
-    background: linear-gradient(80deg,
-            rgba(241, 192, 232, 1) 0%,
-            rgba(142, 236, 245, 1) 100%);
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  background-color: var(--color-background);
+  background: linear-gradient(
+    80deg,
+    #4968B5,
+    rgba(142, 236, 245, 1) 100%
+  );
 
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
 }
 
+/* Container styles */
 .container {
-    display: flex;
-    gap: 3ch;
-    max-width: 960px;
-    padding: 0 4ch;
+  display: flex;
+  gap: 3ch;
+  max-width: 960px;
+  padding: 0 4ch;
 }
 
+/* Select container styles */
 .select-container {
-    width: auto;
-    margin-top: 12px;
-    overflow: hidden;
-    margin-bottom: 12px;
+  width: auto;
+  margin-top: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
 }
 
+/* Camera container styles */
 .camera-container {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: var(--box-height);
-    min-height: var(--box-height);
-    background-color: var(--mauve);
-    outline: 1px solid var(--color-text);
-    box-shadow: 0.9ch 0.9ch rgba(0, 0, 0, 0.8);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--box-height);
+  min-height: var(--box-height);
+  background-color: var(--mauve);
+  outline: 1px solid var(--color-text);
+  box-shadow: 0.9ch 0.9ch rgba(0, 0, 0, 0.8);
 }
 
+/* Video styles inside camera container */
 .camera-container video {
-    position: absolute;
-    width: var(--box-height);
-    height: var(--box-height);
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    top: 0;
-    left: 0;
-    /* transform: scale(2.5); */
-    /* border-radius: 50%; */
-    padding: 8px;
-    background-color: #ffff;
-    z-index: 1;
+  position: absolute;
+  width: var(--box-height);
+  height: var(--box-height);
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  padding: 8px;
+  background-color: #ffff;
+  z-index: 1;
 }
 
+/* Canvas styles inside camera container */
 .camera-container canvas {
-    position: absolute;
-    width: var(--box-height);
-    height: var(--box-height);
-    /* transform: scale(2.5); */
-    object-fit: cover;
-    padding: 8px;
-    z-index: 1;
+  position: absolute;
+  width: var(--box-height);
+  height: var(--box-height);
+  object-fit: cover;
+  padding: 8px;
+  z-index: 1;
 }
 
+/* Card styles */
 .card {
-    padding: 16px;
-    grid-template-rows: 1fr auto;
-    background-color: #fff;
-    outline: 1px solid var(--color-text);
-    min-height: var(--box-height);
-    box-shadow: 0.9ch 0.9ch rgba(0, 0, 0, 0.8);
+  padding: 16px;
+  grid-template-rows: 1fr auto;
+  background-color: #fff;
+  outline: 1px solid var(--color-text);
+  min-height: var(--box-height);
+  box-shadow: 0.9ch 0.9ch rgba(0, 0, 0, 0.8);
 }
 
+/* Button styles */
 button {
-    background-color: var(--cream);
+  background-color: var(--cream);
+  border: 1px solid var(--color-text);
+  padding: 6px 11px;
+  box-shadow: 0.5ch 0.5ch rgba(0, 0, 0, 0.8);
+  transform: translate(-1px, -1px);
+  transition: all 0.05s ease-in;
 }
 
-.btn-stop {
-    background-color: var(--baby-pink);
-}
-
-.btn-start {
-    background-color: var(--electric-blue);
-}
-
-.button-container div {
-    /* margin-top: 1rem; */
-    /* margin-right: 1rem; */
-}
-
-p {
-    margin-top: 1rem;
-}
-
-button {
-    border: 1px solid var(--color-text);
-    padding: 6px 11px;
-    box-shadow: 0.5ch 0.5ch rgba(0, 0, 0, 0.8);
-    transform: translate(-1px, -1px);
-    transition: all 0.05s ease-in;
-}
-
+/* Button hover and active styles */
 button:hover {
-    background-color: whitesmoke;
-    cursor: pointer;
+  background-color: whitesmoke;
+  cursor: pointer;
 }
 
 button:active {
-    transform: translate(0, 0);
-    box-shadow: 0.2ch 0.2ch rgba(0, 0, 0, 0.8);
+  transform: translate(0, 0);
+  box-shadow: 0.2ch 0.2ch rgba(0, 0, 0, 0.8);
 }
 
-/* overlay styles */
+/* Specific button styles */
+.btn-stop {
+  background-color: var(--baby-pink);
+}
+
+.btn-start {
+  background-color: var(--electric-blue);
+}
+
+/* Button container styles */
+.button-container div {
+  /* margin-top: 1rem; */
+  /* margin-right: 1rem; */
+}
+
+/* Paragraph styles */
+p {
+  margin-top: 1rem;
+}
+
+/* Overlay button styles */
 .btn-info {
-    background: rgba(142, 236, 245, 1);
+  background: rgba(142, 236, 245, 1);
 }
 
+/* Overlay styles */
 .overlay {
-    position: absolute;
-    background: rgba(241, 192, 232, 1);
-    background: linear-gradient(80deg, rgba(241, 192, 232, 1) 0%, rgba(142, 236, 245, 1) 100%);
-    z-index: 3;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  background: rgba(241, 192, 232, 1);
+  background: linear-gradient( 
+  80deg, #4968B5, rgba(142, 236, 245, 1) 100% );
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Overlay close button styles */
 .overlay-close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    padding: 0.5rem;
-    width: 38px;
-    border: 2px solid #e7c5e9;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s ease-in;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 0.5rem;
+  width: 38px;
+  border: 2px solid #e7c5e9;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
 }
 
+/* Overlay close button hover styles */
 .overlay-close-btn:hover {
-    color: rgba(0, 0, 0, 1)
+  color: rgba(0, 0, 0, 1);
 }
