@@ -1,3 +1,5 @@
+<img src="src/assets/img/icon-128.png" width="64"/>
+git 
 # ErgoPro-AI
 
 This extension helps you keep track of your posture as you surf the web by first taking a baseline of you sitting with good posture, and then applying a 'blur' effect when you start to deviate from your recorded "good posture" position. As soon as you sit back up, the blur goes away and you're back to browsing!
